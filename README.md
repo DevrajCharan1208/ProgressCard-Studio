@@ -2,6 +2,8 @@
 
 **Create stunning, customizable progress cards** for LinkedIn, GitHub, and social media — right in your browser.
 
+👉 **[Try the Live Demo Here](https://devrajcharan1208.github.io/ProgressCard-Studio/)**
+
 No sign-up. No frameworks. No build step. Just open `index.html` and start creating.
 
 ---
