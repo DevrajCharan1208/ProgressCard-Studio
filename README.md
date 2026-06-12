@@ -43,6 +43,7 @@ Instead of spending hours in Figma or Canva, you fill in your details, pick a th
 - **👤 Social Links** — GitHub, LinkedIn, Email, Twitter/X, and Website — shown as clean footer icons
 - **📋 One-click Copy** — Copy the card image directly to your clipboard
 - **🖼️ PNG Download** — High-res (2.5x scale) export with correct background rendering
+- **🔄 State Export & Load** — Embeds your configuration in the exported PNG or HTML so you can reload your workspace anytime
 - **📄 HTML Export** — Get a standalone HTML file with your card and custom theme baked in
 - **💾 Auto-save** — Your work persists in localStorage across sessions
 - **📱 Responsive** — Works on desktop, tablet, and mobile

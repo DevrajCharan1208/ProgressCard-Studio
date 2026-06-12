@@ -631,12 +631,19 @@ let state = {};
         }
       }
     }).then(canvas => {
-      const link = document.createElement('a');
-      const safeName = state.profile.name.replace(/[^a-zA-Z0-9]/g, '_');
-      link.download = `ProgressCard_${safeName}.png`;
-      link.href = canvas.toDataURL('image/png');
-      link.click();
-      showToast('PNG downloaded!', 'success');
+      canvas.toBlob(blob => {
+        const stateString = "\n\n===PROGRESS_CARD_STATE===" + JSON.stringify(state) + "===END_STATE===\n";
+        const textBlob = new Blob([stateString], { type: 'text/plain' });
+        const combinedBlob = new Blob([blob, textBlob], { type: 'image/png' });
+        
+        const link = document.createElement('a');
+        const safeName = state.profile.name.replace(/[^a-zA-Z0-9]/g, '_');
+        link.download = `ProgressCard_${safeName}.png`;
+        link.href = URL.createObjectURL(combinedBlob);
+        link.click();
+        URL.revokeObjectURL(link.href);
+        showToast('PNG downloaded!', 'success');
+      }, 'image/png');
     }).catch(err => {
       console.error("PNG export error:", err);
       showToast('Export failed — check console', '');
@@ -799,42 +806,47 @@ let state = {};
     showToast('HTML exported!', 'success');
   }
 
-  // --- LOAD HTML FEATURE ---
-  function handleHtmlUpload(event) {
+  // --- LOAD FILE FEATURE ---
+  function handleFileUpload(event) {
     const file = event.target.files[0];
     if (!file) return;
 
     const reader = new FileReader();
     reader.onload = function(e) {
-      const htmlText = e.target.result;
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(htmlText, 'text/html');
-      
-      const stateScript = doc.getElementById('progress-card-state');
-      if (stateScript) {
-        try {
-          const loadedState = JSON.parse(stateScript.textContent);
-          
-          // Basic validation
-          if (loadedState && loadedState.profile && loadedState.theme) {
-            state = JSON.parse(JSON.stringify(loadedState));
-            saveState();
-            
-            // Refresh everything
-            updateFormFields();
-            renderThemeColors();
-            renderCard();
-            
-            showToast('Card loaded successfully!', 'success');
-          } else {
-            showToast('Invalid state format in HTML.', '');
+      const text = e.target.result;
+      let loadedState = null;
+
+      if (file.name.endsWith('.png')) {
+        const match = text.match(/===PROGRESS_CARD_STATE===(.*?)===END_STATE===/);
+        if (match) {
+          try {
+            loadedState = JSON.parse(match[1]);
+          } catch (err) {
+            console.error("Error parsing PNG state:", err);
           }
-        } catch (err) {
-          console.error("Error parsing state:", err);
-          showToast('Failed to parse saved state.', '');
         }
+      } else if (file.name.endsWith('.html')) {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(text, 'text/html');
+        const stateScript = doc.getElementById('progress-card-state');
+        if (stateScript) {
+          try {
+            loadedState = JSON.parse(stateScript.textContent);
+          } catch (err) {
+            console.error("Error parsing HTML state:", err);
+          }
+        }
+      }
+
+      if (loadedState && loadedState.profile && loadedState.theme) {
+        state = JSON.parse(JSON.stringify(loadedState));
+        saveState();
+        updateFormFields();
+        renderThemeColors();
+        renderCard();
+        showToast('Card loaded successfully!', 'success');
       } else {
-        showToast('No save data found in this HTML file.', '');
+        showToast('No valid save data found in this file.', '');
       }
       
       event.target.value = ''; // Reset input

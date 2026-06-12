@@ -177,11 +177,10 @@
         <button class="btn-secondary" onclick="exportCleanHTML()">
           <span>📄</span> Export HTML
         </button>
-      </div>
       <div style="display:flex; gap:8px;">
-        <input type="file" id="upload-html" accept=".html" style="display:none;" onchange="handleHtmlUpload(event)">
-        <button class="btn-secondary" onclick="document.getElementById('upload-html').click()" style="flex:1">
-          <span>📂</span> Load HTML
+        <input type="file" id="upload-file" accept=".html,.png" style="display:none;" onchange="handleFileUpload(event)">
+        <button class="btn-secondary" onclick="document.getElementById('upload-file').click()" style="flex:1">
+          <span>📂</span> Load Card
         </button>
         <button class="btn-secondary btn-reset" onclick="resetToDefaults()" style="flex:1; margin-top:0;">
           <span>🔄</span> Reset
