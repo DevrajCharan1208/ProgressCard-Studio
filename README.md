@@ -1,6 +1,6 @@
 # ✦ ProgressCard Studio
 
-**Create stunning, customizable progress cards** for LinkedIn, GitHub, and social media — right in your browser.
+**Create stunning, customizable progress cards** for LinkedIn, GitHub, and social media - right in your browser.
 
 👉 **[Try the Live Demo Here](https://devrajcharan1208.github.io/ProgressCard-Studio/)**
 
@@ -18,7 +18,7 @@ No sign-up. No frameworks. No build step. Just open `index.html` and start creat
 
 ## What Is This?
 
-ProgressCard Studio is a browser-based tool that lets you design beautiful progress cards — the kind you see on LinkedIn posts like *"Week 5 of learning DSA"* or *"Sprint 4 complete."*
+ProgressCard Studio is a browser-based tool that lets you design beautiful progress cards.
 
 Instead of spending hours in Figma or Canva, you fill in your details, pick a theme, and download a pixel-perfect PNG in seconds.
 
