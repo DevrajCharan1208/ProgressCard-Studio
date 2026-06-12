@@ -783,6 +783,9 @@ let state = {};
 <body>
   <div class="orb orb1"></div><div class="orb orb2"></div><div class="orb orb3"></div>
   ${cardContent}
+  <script type="application/json" id="progress-card-state">
+    ${JSON.stringify(state)}
+  </script>
 </body>
 </html>`;
 
@@ -794,6 +797,50 @@ let state = {};
     link.click();
     URL.revokeObjectURL(link.href);
     showToast('HTML exported!', 'success');
+  }
+
+  // --- LOAD HTML FEATURE ---
+  function handleHtmlUpload(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const htmlText = e.target.result;
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(htmlText, 'text/html');
+      
+      const stateScript = doc.getElementById('progress-card-state');
+      if (stateScript) {
+        try {
+          const loadedState = JSON.parse(stateScript.textContent);
+          
+          // Basic validation
+          if (loadedState && loadedState.profile && loadedState.theme) {
+            state = JSON.parse(JSON.stringify(loadedState));
+            saveState();
+            
+            // Refresh everything
+            updateFormFields();
+            renderThemeColors();
+            renderCard();
+            
+            showToast('Card loaded successfully!', 'success');
+          } else {
+            showToast('Invalid state format in HTML.', '');
+          }
+        } catch (err) {
+          console.error("Error parsing state:", err);
+          showToast('Failed to parse saved state.', '');
+        }
+      } else {
+        showToast('No save data found in this HTML file.', '');
+      }
+      
+      event.target.value = ''; // Reset input
+    };
+    
+    reader.readAsText(file);
   }
 
   /* ═══════════════════════════════════════════════════
