@@ -16,3 +16,7 @@ Desktop.ini
 # Logs
 *.log
 npm-debug.log*
+
+# Custom additions
+*.py
+debug_*.txt

@@ -87,9 +87,7 @@ That's it. No `npm install`, no build step, no server needed.
 | Logic | Vanilla JavaScript (no frameworks) |
 | Image Export | [html2canvas](https://html2canvas.hertzen.com/) via CDN |
 | Fonts | [Inter](https://fonts.google.com/specimen/Inter) + [JetBrains Mono](https://fonts.google.com/specimen/JetBrains+Mono) via Google Fonts |
-
-**Why single-file?** Simplicity. Anyone can download and use it. No build tools, no node_modules, no config files. The entire app lives in one `index.html` — which also makes it trivially easy to host on GitHub Pages.
-
+**Project Structure:** The app is cleanly separated into standard web development files (`index.html`, `style.css`, `script.js`, and `data.js` for templates). It requires zero build tools, no node_modules, and no config files. It is trivially easy to host on GitHub Pages.
 ---
 
 ## Deploy on GitHub Pages
